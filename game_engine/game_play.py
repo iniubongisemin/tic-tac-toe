@@ -57,4 +57,39 @@ class Play:
 
         if choice == "1":
             self.board = copy.deepcopy(four_by_four)
+            self.board_size = 4
+            board_type = "4X4"
+        elif choice == "2":
+            self.board = copy.deepcopy(five_by_five)
+            self.board_size = 5
+            board_type = "5X5"
+        else:
+            print("Invalid choice. Defaulting to 4X4")
+            self.board_size = 4
+            board_type = "4x4"
+
+        self.game = Game.objects.create(
+            player=self.player,
+            board=self.board,
+            board_type=board_type
+        )
+        self.game.start_time = timezone.now()
+
+    def print_coordinates(self):
+        coordinates = [[(i, j) for j in range(self.board_size)] for i in range(self.board_size)]
+        print("\nCoordinates:")
+        for row in coordinates:
+            print(f"  {row}")
+
+    def print_board(self):
+        self.print_coordinates()
+        print("\nBoard")
+        for i, row in enumerate(self.board):
+            print(f" {' | '.join(row)}")
+            if i < len(self.board) - 1:
+                print(" " + "-" * (4 * self.board_size - 1))
+    
+    def get_player_move(self):
+        pass
+            
             
